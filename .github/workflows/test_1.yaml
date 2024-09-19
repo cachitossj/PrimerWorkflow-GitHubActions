@@ -1,5 +1,5 @@
 # Nombre del Workflow
-name: Hola mundo
+name: WorkFlow1-Test
 
 # Evento que desencadena el Workflow
 # En este caso, el workflow se activará cada vez que se haga un "push" al repositorio.
@@ -8,16 +8,50 @@ on:
 
 # Definición de los trabajos (jobs)
 jobs: 
-  # Nombre del trabajo (job)
-  hola: 
-    # Especificamos en qué tipo de runner se va a ejecutar el trabajo
-    # "ubuntu-latest" indica que el trabajo se ejecutará en una máquina virtual con el sistema operativo Ubuntu.
+  # Nombre del primer trabajo (job)
+  Job1: 
+    # Especificamos en qué tipo de runner se va a ejecutar el trabajo.
+    # En este caso, estamos utilizando una máquina virtual con Ubuntu.
     runs-on: ubuntu-latest
 
-    # Definimos los pasos (steps) que se ejecutarán dentro de este trabajo.
+    # Definimos los pasos (steps) dentro de Job1.
     steps:
       # Primer paso
       # Este paso imprime un mensaje en la consola usando el comando "echo".
-      # Aquí estamos usando el nombre "Hola mundo" para identificar este paso, y luego el comando de shell.
-      - name: Hola mundo 
+      - name: msjPantalla 
         run: echo "Hola mundo, este es mi primer Workflow en GitHub Actions!"
+      
+      # Segundo paso
+      # Crea un archivo vacío llamado "hola.txt" en el directorio actual usando el comando "touch".
+      # Esto sirve para crear archivos durante la ejecución del pipeline.
+      - name: touch file
+        run: touch hola.txt
+      
+      # Tercer paso
+      # Agrega la cadena "Hola mundo!" dentro del archivo "hola.txt" usando el operador de redirección `>>`.
+      # Este operador agrega texto al final del archivo.
+      - name: Agregar mensaje
+        run: echo "Hola mundo, estoy estudiando GitHub Actions!" >> hola.txt
+
+      # Cuarto paso
+      # Lee el contenido del archivo "hola.txt" y lo imprime en la consola usando el comando `cat`.
+      # Es una forma de verificar que el archivo fue creado y el mensaje se agregó correctamente.
+      - name: Read file
+        run: cat hola.txt
+  
+  # Nombre del segundo trabajo (job)
+  # Este job se llamará "Job2" y depende de que "Job1" se ejecute y finalice correctamente.
+  Job2:
+    # El trabajo también se ejecuta en una máquina virtual con Ubuntu.
+    runs-on: ubuntu-latest
+
+    # El parámetro "needs" asegura que Job2 no se ejecutará hasta que Job1 haya terminado con éxito.
+    needs: Job1
+
+    # Definimos los pasos (steps) dentro de Job2.
+    steps:
+      # Único paso de Job2
+      # Este paso lista el contenido del directorio actual y lo imprime en la consola usando el comando `ls -al`.
+      # Esto te permite verificar que el archivo "hola.txt" creado en Job1 está disponible en Job2.
+      - name: LS
+        run: ls -al
