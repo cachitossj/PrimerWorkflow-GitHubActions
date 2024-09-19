@@ -1,11 +1,23 @@
-name: Hola mundo 
+# Nombre del Workflow
+name: Hola mundo
 
-on: [push]
+# Evento que desencadena el Workflow
+# En este caso, el workflow se activará cada vez que se haga un "push" al repositorio.
+on: 
+  - push
 
+# Definición de los trabajos (jobs)
 jobs: 
+  # Nombre del trabajo (job)
   hola: 
+    # Especificamos en qué tipo de runner se va a ejecutar el trabajo
+    # "ubuntu-latest" indica que el trabajo se ejecutará en una máquina virtual con el sistema operativo Ubuntu.
     runs-on: ubuntu-latest
 
+    # Definimos los pasos (steps) que se ejecutarán dentro de este trabajo.
     steps:
+      # Primer paso
+      # Este paso imprime un mensaje en la consola usando el comando "echo".
+      # Aquí estamos usando el nombre "Hola mundo" para identificar este paso, y luego el comando de shell.
       - name: Hola mundo 
         run: echo "Hola mundo, este es mi primer Workflow en GitHub Actions!"
